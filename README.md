@@ -6,7 +6,7 @@
    ```bash
    dotnet --version
    ```
-3. Clone repo.
+3. Clone repository
 4. Use next commands to build and run:
    ```bash
    dotnet build TicTacToeConsole.csproj
