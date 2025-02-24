@@ -9,6 +9,7 @@ public class Game
 {
     private Player _player1;
     private Player _player2;
+    private ShowMessages _message;
     private string[] _board;
     private bool _player1Turn;
     private int _numTurns;
@@ -24,6 +25,7 @@ public class Game
     {
         _player1 = player1;
         _player2 = player2;
+        _message = new ShowMessages();
         _board = new string[9] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         _player1Turn = true;
         _numTurns = 0;
@@ -31,7 +33,7 @@ public class Game
 
     public void StartGame()
     {
-        Thread.Sleep(1500);
+        Thread.Sleep(800);
 
         int[] winIndexes = Array.Empty<int>();
 
@@ -64,9 +66,7 @@ public class Game
             Player winner = _player1Turn ? _player2 : _player1;
             Player loser = _player1Turn ? _player1 : _player2;
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\nCongrats! Player '{winner._name}' wins!\n");
-            Console.ResetColor();
+            _message.ShowColorMessage($"\n\nCongrats! Player '{winner._name}' wins!\n\n", ConsoleColor.Green);
 
             winner.IncrementWinsCount();
             loser.IncrementLosesCount();
@@ -100,9 +100,8 @@ public class Game
             for (int j = 0; j < 3; j++)
             {
                 int index = i * 3 + j;
-                Console.ForegroundColor = GetColor(indexes, index);
-                Console.Write(_board[index]);
-                Console.ResetColor();
+
+                _message.ShowColorMessage(_board[index], GetColor(indexes, index));
                 Console.Write(" | ");
             }
             Console.WriteLine("");

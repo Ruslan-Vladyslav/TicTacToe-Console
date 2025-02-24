@@ -10,7 +10,7 @@ public class Player
     public string _name { get; }
     public int _winsCount { get; private set; }
     public int _losesCount { get; private set; }
-    public char _figure { get; }
+    public char _figure { get; set; }
 
 
     public Player(string name, char figure)

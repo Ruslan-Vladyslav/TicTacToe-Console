@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 public class Validation
 {
-    public Validation() { }
+    private ShowMessages _showM;
+
+    public Validation() 
+    {
+        _showM = new ShowMessages();
+    }
 
     public string NameValidation(string message)
     {
@@ -17,7 +22,7 @@ public class Validation
 
         while (string.IsNullOrWhiteSpace(name))
         {
-            ValidColorOutput("\nError: name cannot be empty.");
+            _showM.ShowError("\nError: name cannot be empty.");
             Console.Write(message);
             name = Console.ReadLine();
         }
@@ -31,7 +36,7 @@ public class Validation
 
         while (string.IsNullOrWhiteSpace(input) || input.Length != 1 || (char.ToUpper(input[0]) != 'X' && char.ToUpper(input[0]) != 'O'))
         {
-            ValidColorOutput("\nError: should choose one symbol (X or O).\n");
+            _showM.ShowError("\nError: should choose one symbol (X or O).\n");
             Console.Write(message);
             input = Console.ReadLine();
         }
@@ -47,8 +52,8 @@ public class Validation
         {
             g.PrintBoard(indexes);
 
-            ValidColorOutput($"\nPlayer '{player._name}' Please select an available number from the board.");
-            Console.Write("Select column (enter available number): ");
+            _showM.ShowError($"\nPlayer '{player._name}' Please select an available number from the board. Your symbol is {player._figure}.");
+            Console.Write("\nSelect column (enter available number): ");
 
             choice = Console.ReadLine();
         }
@@ -61,20 +66,13 @@ public class Validation
         int menu;
         string? input = Console.ReadLine();
 
-        while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2 && menu != 3))
+        while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2 && menu != 3 && menu != 4))
         {
-            ValidColorOutput("\nInvalid input! Please enter integer.");
+            _showM.ShowError("\nInvalid input! Please enter integer.\n");
             Console.Write(">> ");
             input = Console.ReadLine();
         }
 
         return menu;
-    }
-
-    private void ValidColorOutput(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(message);
-        Console.ResetColor();
     }
 }
