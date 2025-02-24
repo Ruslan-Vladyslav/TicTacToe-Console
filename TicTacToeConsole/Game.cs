@@ -1,0 +1,126 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+public class Game
+{
+    private Player _player1;
+    private Player _player2;
+    private string[] _board;
+    private bool _player1Turn;
+    private int _numTurns;
+
+    private int[][] _VictoryPatterns =
+    {
+    new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 },
+    new[] { 0, 3, 6 }, new[] { 1, 4, 7 }, new[] { 2, 5, 8 },
+    new[] { 0, 4, 8 }, new[] { 2, 4, 6 }
+    };
+
+    public Game(Player player1, Player player2)
+    {
+        _player1 = player1;
+        _player2 = player2;
+        _board = new string[9] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        _player1Turn = true;
+        _numTurns = 0;
+    }
+
+    public void StartGame()
+    {
+        Thread.Sleep(1500);
+
+        int[] winIndexes = Array.Empty<int>();
+
+        while (!IsVictory(out winIndexes) && _numTurns < 9)
+        {
+            PrintBoard(winIndexes);
+
+            Player player = _player1Turn ? _player1 : _player2;
+
+            Console.WriteLine($"\nPlayer's '{player._name}' Turn (symbol: {player._figure})!");
+            Console.Write("Select column (enter existing number): ");
+
+            var valid = new Validation();
+            int index = valid.MoveValidation(_board, winIndexes, player, this);
+
+            _board[index] = player._figure.ToString();
+            _numTurns++;
+
+            _player1Turn = !_player1Turn;
+        }
+
+        PrintBoard(winIndexes);
+        GameResult(winIndexes);
+    }
+
+    private void GameResult(int[] winIndexes)
+    {
+        if (winIndexes.Length > 0)
+        {
+            Player winner = _player1Turn ? _player2 : _player1;
+            Player loser = _player1Turn ? _player1 : _player2;
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nCongrats! Player '{winner._name}' wins!\n");
+            Console.ResetColor();
+
+            winner.IncrementWinsCount();
+            loser.IncrementLosesCount();
+        }
+        else
+            Console.WriteLine("\nIt's a tie!");
+    }
+
+    private bool IsVictory(out int[] winIndex)
+    {
+        foreach (var i in _VictoryPatterns)
+        {
+            if (_board[i[0]] == _board[i[1]] && _board[i[1]] == _board[i[2]])
+            {
+                winIndex = i;
+                return true;
+            }
+        }
+
+        winIndex = Array.Empty<int>();
+        return false;
+    }
+
+    public void PrintBoard(int[] indexes)
+    {
+        Console.WriteLine("\n\n-------------");
+
+        for (int i = 0; i < 3; i++)
+        {
+            Console.Write("| ");
+            for (int j = 0; j < 3; j++)
+            {
+                int index = i * 3 + j;
+                Console.ForegroundColor = GetColor(indexes, index);
+                Console.Write(_board[index]);
+                Console.ResetColor();
+                Console.Write(" | ");
+            }
+            Console.WriteLine("");
+            Console.WriteLine("-------------");
+        }
+    }
+
+    private ConsoleColor GetColor(int[] indexes, int index)
+    {
+        if (indexes != null && indexes.Contains(index))
+            return ConsoleColor.Green;
+
+        return _board[index] switch
+        {
+            "X" => ConsoleColor.Red,
+            "O" => ConsoleColor.Blue,
+            _ => ConsoleColor.White
+        };
+    }
+}
+
