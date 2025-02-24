@@ -56,25 +56,25 @@ public class Validation
         return Convert.ToInt32(choice) - 1;
     }
 
-    private void ValidColorOutput(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(message);
-        Console.ResetColor();
-    }
-
     public int InputValidation()
     {
         int menu;
         string? input = Console.ReadLine();
 
-        while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2))
+        while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2 && menu != 3))
         {
-            Console.WriteLine("\nInvalid input! Please enter 1 or 2.");
+            ValidColorOutput("\nInvalid input! Please enter integer.");
             Console.Write(">> ");
             input = Console.ReadLine();
         }
 
         return menu;
+    }
+
+    private void ValidColorOutput(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ResetColor();
     }
 }
