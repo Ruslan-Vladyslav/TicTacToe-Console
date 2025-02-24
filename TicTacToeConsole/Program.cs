@@ -11,7 +11,7 @@ class Program
         var show = new ShowMessages();
 
 
-        Console.WriteLine("\nSimple Tic Tac Toe game (noughts and crosses)\n");
+        Console.WriteLine("\n-Simple Tic Tac Toe game (noughts and crosses)-\n");
 
         string name = valid.NameValidation("\nPlayer 1, enter your name: ");
         char symbol1 = valid.SymbolValidation($"Player '{name}', choose your symbol ('X' or 'O'): ");
