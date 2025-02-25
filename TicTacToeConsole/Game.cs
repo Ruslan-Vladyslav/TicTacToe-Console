@@ -70,9 +70,14 @@ public class Game
 
             winner.IncrementWinsCount();
             loser.IncrementLosesCount();
+
+            Counter.matchesCount++;
         }
         else
+        {
             Console.WriteLine("\nIt's a tie!");
+            Counter.tiesCount++;
+        }
     }
 
     private bool IsVictory(out int[] winIndex)

@@ -42,12 +42,15 @@ class Program
                     isFirstMove = !isFirstMove;
                     break;
                 case 2:
-                    Console.WriteLine("\n\nPlayers stats:");
+                    Console.WriteLine($"\n\nMatches played: {Counter.matchesCount}, Ties: {Counter.tiesCount}");
+                    Console.WriteLine("\nPlayers stats:");
+
                     player1.ShowPlayerStats();
                     player2.ShowPlayerStats();
                     break;
                 case 3:
                     (player1._figure, player2._figure) = (player2._figure, player1._figure);
+
                     Console.WriteLine($"\n\nPlayer '{player1._name}' new symbol - '{player1._figure}'");
                     Console.WriteLine($"Player '{player2._name}' new symbol - '{player2._figure}'\n");
                     break;
