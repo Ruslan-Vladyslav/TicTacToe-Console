@@ -11,14 +11,16 @@ public class Player
     public int _winsCount { get; private set; }
     public int _losesCount { get; private set; }
     public char _figure { get; set; }
+    public bool _IsAI { get; }
 
 
-    public Player(string name, char figure)
+    public Player(string name, char figure, bool isAI)
     {
         _name = name;
         _winsCount = 0;
         _losesCount = 0;
         _figure = figure;
+        _IsAI = isAI;
     }
 
     public void IncrementWinsCount()

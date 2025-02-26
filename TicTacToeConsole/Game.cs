@@ -37,17 +37,30 @@ public class Game
 
         int[] winIndexes = Array.Empty<int>();
 
-        while (!IsVictory(out winIndexes) && _numTurns < 9)
+        while (!IsVictory(out winIndexes, _board) && _numTurns < 9)
         {
             PrintBoard(winIndexes);
 
             Player player = _player1Turn ? _player1 : _player2;
 
             Console.WriteLine($"\nPlayer's '{player._name}' Turn (symbol: {player._figure})!");
-            Console.Write("Select column (enter existing number): ");
 
-            var valid = new Validation();
-            int index = valid.MoveValidation(_board, winIndexes, player, this);
+            int index;
+
+            if (player._IsAI)
+            {
+                MiniMax minimax = new MiniMax(_numTurns, this, player);
+                index = minimax.FindOptimalMove(_board);
+
+                Thread.Sleep(900);
+                Console.WriteLine($"AI choose column [{index}]");
+            }
+            else
+            {
+                Console.Write("Select column (enter existing number): ");
+                var valid = new Validation();
+                index = valid.MoveValidation(_board, winIndexes, player, this);
+            }
 
             _board[index] = player._figure.ToString();
             _numTurns++;
@@ -77,14 +90,15 @@ public class Game
         {
             Console.WriteLine("\nIt's a tie!");
             Counter.tiesCount++;
+            Counter.matchesCount++;
         }
     }
 
-    private bool IsVictory(out int[] winIndex)
+    private bool IsVictory(out int[] winIndex, string[] board)
     {
         foreach (var i in _VictoryPatterns)
         {
-            if (_board[i[0]] == _board[i[1]] && _board[i[1]] == _board[i[2]])
+            if (board[i[0]] == board[i[1]] && board[i[1]] == board[i[2]])
             {
                 winIndex = i;
                 return true;

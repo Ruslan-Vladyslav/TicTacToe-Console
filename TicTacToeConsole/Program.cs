@@ -4,25 +4,43 @@ class Program
 {
     static void Main(string[] args)  
     {
+        Console.WriteLine("\n-Simple Tic Tac Toe game (noughts and crosses)-\n");
+
         Player player1;
         Player player2;
 
         var valid = new Validation();
         var show = new ShowMessages();
+        bool isAI = true;
 
+        show.ShowOpponentMenu();
+        int opponent = valid.OpponentValidation();
 
-        Console.WriteLine("\n-Simple Tic Tac Toe game (noughts and crosses)-\n");
 
         string name = valid.NameValidation("\nPlayer 1, enter your name: ");
         char symbol1 = valid.SymbolValidation($"Player '{name}', choose your symbol ('X' or 'O'): ");
 
-        player1 = new Player(name, symbol1);
+        player1 = new Player(name, symbol1, !isAI);
 
-        name = valid.NameValidation("\nPlayer 2, enter your name: ");
-        char symbol2 = symbol1 == 'X' ? 'O' : 'X';
 
-        Console.Write($"Player '{name}', your symbol is '{symbol2}'\n\n");
-        player2 = new Player(name, symbol2);
+        if (opponent == 1)
+        {
+            name = valid.NameValidation("\nPlayer 2, enter your name: ");
+            char symbol2 = symbol1 == 'X' ? 'O' : 'X';
+
+            Console.Write($"Player '{name}', your symbol is '{symbol2}'\n\n");
+            player2 = new Player(name, symbol2, !isAI);
+        }
+        else
+        {
+            name = "AI";
+            Console.WriteLine($"\nPlayer 2 is '{name}'");
+
+            char symbol2 = symbol1 == 'X' ? 'O' : 'X';
+            Console.Write($"Opponents '{name}' symbol is '{symbol2}'\n\n");
+
+            player2 = new Player(name, symbol2, isAI);
+        }
 
         Thread.Sleep(1500);
 
@@ -52,12 +70,13 @@ class Program
                     (player1._figure, player2._figure) = (player2._figure, player1._figure);
 
                     Console.WriteLine($"\n\nPlayer '{player1._name}' new symbol - '{player1._figure}'");
-                    Console.WriteLine($"Player '{player2._name}' new symbol - '{player2._figure}'\n");
+                    Console.WriteLine($"Player '{player2._name}' new symbol - '{player2._figure}'");
                     break;
                 case 4:
-                    Console.WriteLine("\nThanks for playing!");
                     break;
             }
         } while (firstMenu != 4);
+
+        Console.WriteLine("\nThanks for playing!");
     }
 }

@@ -12,6 +12,14 @@ public class ShowMessages
     public ShowMessages() { }
 
 
+    public void ShowOpponentMenu()
+    {
+        Console.WriteLine("\nChoose your opponent:");
+        Console.WriteLine("1 Another player");
+        Console.WriteLine("2 Ai");
+        Console.Write(">> ");
+    }
+
     public void ShowMenu()
     {
         Console.WriteLine("\nMenu:");

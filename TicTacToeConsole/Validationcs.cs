@@ -68,7 +68,22 @@ public class Validation
 
         while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2 && menu != 3 && menu != 4))
         {
-            _showM.ShowError("\nInvalid input! Please enter integer.\n");
+            _showM.ShowError("\nInvalid input! Please enter integer [1 - 4].\n");
+            Console.Write(">> ");
+            input = Console.ReadLine();
+        }
+
+        return menu;
+    }
+
+    public int OpponentValidation()
+    {
+        int menu;
+        string? input = Console.ReadLine();
+
+        while (!int.TryParse(input, out menu) || (menu != 1 && menu != 2))
+        {
+            _showM.ShowError("\nInvalid input! Please enter integer [1 - 2].\n");
             Console.Write(">> ");
             input = Console.ReadLine();
         }
