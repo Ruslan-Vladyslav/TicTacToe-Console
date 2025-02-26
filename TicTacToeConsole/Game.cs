@@ -94,7 +94,7 @@ public class Game
         }
     }
 
-    private bool IsVictory(out int[] winIndex, string[] board)
+    public bool IsVictory(out int[] winIndex, string[] board)
     {
         foreach (var i in _VictoryPatterns)
         {
